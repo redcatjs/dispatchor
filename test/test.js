@@ -193,20 +193,24 @@ export default function tests (Dispatchor) {
 
       expect(pattern.join(';')).equals('foo1;foo2')
     })
-
+    
     it('emits to wildcard event listeners', function () {
         const e = new Dispatchor()
         const pattern = []
-
-        e.on('*', function () {
+        
+        e.on('*', function (name, arg) {
           pattern.push('foo1')
+          expect(name).equals('foo')
+          expect(arg).equals(1234)
         })
 
-        e.on('*', function () {
+        e.on('*', function (name, arg) {
           pattern.push('foo2')
+          expect(name).equals('foo')
+          expect(arg).equals(1234)
         })
 
-        e.emit('foo')
+        e.emit('foo', 1234)
 
         expect(pattern.join(';')).equals('foo1;foo2')
 

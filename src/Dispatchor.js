@@ -12,7 +12,7 @@ class Dispatchor {
   }
 
   emit (evt) {
-    const args = Object.values(arguments).slice(1)
+    const args = Object.values(arguments)
     
     if (this._events.has('*')){
       this._runListeners('*', args)
@@ -21,7 +21,7 @@ class Dispatchor {
     if (!this._events.has(evt)){
       return false
     }
-    this._runListeners(evt, args)
+    this._runListeners(evt, args.slice(1))
     return true
   }
 
