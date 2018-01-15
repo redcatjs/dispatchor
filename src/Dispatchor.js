@@ -8,17 +8,17 @@ class Dispatchor {
     return Array.from(this._events.keys())
   }
   listeners (event) {
-    return (this._events.get(event) || []).map( handler => handler.fn )
+    return (this._events.get(event) || []).map(handler => handler.fn)
   }
 
   emit (evt) {
     const args = Object.values(arguments)
-    
-    if (this._events.has('*')){
+
+    if (this._events.has('*')) {
       this._runListeners('*', args)
     }
-    
-    if (!this._events.has(evt)){
+
+    if (!this._events.has(evt)) {
       return false
     }
     this._runListeners(evt, args.slice(1))
@@ -53,7 +53,7 @@ class Dispatchor {
         this._clearEvent(evt)
       }
     } else {
-      listeners.forEach( listener => {
+      listeners.forEach(listener => {
         if (
           listener.fn !== fn ||
           (once && !listener.once) ||
@@ -62,11 +62,10 @@ class Dispatchor {
           events.push(listener)
         }
       })
-      
-      if(events.length){
+
+      if (events.length) {
         this._events.set(evt, events)
-      }
-      else{
+      } else {
         this._events.delete(evt)
       }
     }
@@ -79,8 +78,7 @@ class Dispatchor {
       if (this._events.has(evt)) {
         this._clearEvent(evt)
       }
-    }
-    else {
+    } else {
       this._events.clear()
     }
     return this
@@ -113,8 +111,8 @@ class Dispatchor {
 
     return this
   }
-  
-  _runListeners(evt, args){
+
+  _runListeners (evt, args) {
     const listeners = this._events.get(evt)
     listeners.forEach(listener => {
       if (listener.once) {

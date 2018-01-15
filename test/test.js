@@ -193,50 +193,48 @@ export default function tests (Dispatchor) {
 
       expect(pattern.join(';')).equals('foo1;foo2')
     })
-    
+
     it('emits to wildcard event listeners', function () {
-        const e = new Dispatchor()
-        const pattern = []
-        
-        e.on('*', function (name, arg) {
-          pattern.push('foo1')
-          expect(name).equals('foo')
-          expect(arg).equals(1234)
-        })
+      const e = new Dispatchor()
+      const pattern = []
 
-        e.on('*', function (name, arg) {
-          pattern.push('foo2')
-          expect(name).equals('foo')
-          expect(arg).equals(1234)
-        })
+      e.on('*', function (name, arg) {
+        pattern.push('foo1')
+        expect(name).equals('foo')
+        expect(arg).equals(1234)
+      })
 
-        e.emit('foo', 1234)
+      e.on('*', function (name, arg) {
+        pattern.push('foo2')
+        expect(name).equals('foo')
+        expect(arg).equals(1234)
+      })
 
-        expect(pattern.join(';')).equals('foo1;foo2')
+      e.emit('foo', 1234)
 
+      expect(pattern.join(';')).equals('foo1;foo2')
     })
-    
+
     it('emits once to wildcard event listeners', function () {
-        const e = new Dispatchor()
-        const pattern = []
-        
-        e.once('*', function (name) {
-          pattern.push('foo1')
-        })
+      const e = new Dispatchor()
+      const pattern = []
 
-        e.once('*', function (name) {
-          pattern.push('foo2')
-        })
+      e.once('*', function (name) {
+        pattern.push('foo1')
+      })
 
-        e.emit('foo')
-        e.emit('foo')
-        e.emit('foo')
-        e.emit('foo')
+      e.once('*', function (name) {
+        pattern.push('foo2')
+      })
 
-        expect(pattern.join(';')).equals('foo1;foo2')
+      e.emit('foo')
+      e.emit('foo')
+      e.emit('foo')
+      e.emit('foo')
 
+      expect(pattern.join(';')).equals('foo1;foo2')
     })
-    
+
     ;(function each (keys) {
       const key = keys.shift()
 
@@ -262,7 +260,6 @@ export default function tests (Dispatchor) {
       'watch'
     ])
   })
-  
 
   describe('listeners', function () {
     it('returns an empty array if no listeners are specified', function () {
