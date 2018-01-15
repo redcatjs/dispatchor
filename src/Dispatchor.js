@@ -12,16 +12,12 @@ class Dispatchor {
   }
 
   emit (evt) {
-    if (!this._events.has(evt)) return false
-    const listeners = this._events.get(evt)
-    const args = []
-    Object.values(arguments).slice(1).forEach(arg => args.push(arg))
-    listeners.forEach(listener => {
-      if (listener.once) {
-        this.removeListener(evt, listener.fn, undefined, true)
-      }
-      Reflect.apply(listener.fn, listener.context, args)
-    })
+    const args = Object.values(arguments).slice(1)
+    
+    if (!this._events.has(evt)){
+      return false
+    }
+    this._runListeners(evt, args)
     return true
   }
 
@@ -112,6 +108,16 @@ class Dispatchor {
     listeners.push(listener)
 
     return this
+  }
+  
+  _runListeners(evt, args){
+    const listeners = this._events.get(evt)
+    listeners.forEach(listener => {
+      if (listener.once) {
+        this.removeListener(evt, listener.fn, undefined, true)
+      }
+      Reflect.apply(listener.fn, listener.context, args)
+    })
   }
 }
 
