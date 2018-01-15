@@ -8,39 +8,20 @@ class Dispatchor {
     return Array.from(this._events.keys())
   }
   listeners (event) {
-    const handlers = this._events.get(event)
-
-    if (!handlers) {
-      return []
-    }
-    if (handlers.fn) {
-      return [handlers.fn]
-    }
-
-    const l = handlers.length
-    const ee = new Array(l)
-    for (let i = 0; i < l; i++) {
-      ee[i] = handlers[i].fn
-    }
-
-    return ee
+    return (this._events.get(event) || []).map( handler => handler.fn )
   }
 
   emit (evt) {
     if (!this._events.has(evt)) return false
-
-    let listeners = this._events.get(evt)
-
+    const listeners = this._events.get(evt)
     const args = []
     Object.values(arguments).slice(1).forEach(arg => args.push(arg))
-
     listeners.forEach(listener => {
       if (listener.once) {
         this.removeListener(evt, listener.fn, undefined, true)
       }
       Reflect.apply(listener.fn, listener.context, args)
     })
-
     return true
   }
 
