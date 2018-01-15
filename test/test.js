@@ -1,6 +1,9 @@
 /* eslint-env mocha */
 
-import { expect } from 'chai'
+import {
+  expect,
+  assert
+} from 'chai'
 
 export default function tests ({
   default: Dispatchor,
@@ -607,28 +610,22 @@ export default function tests ({
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
 
-      let fooOnParentDispatchorCalled
-      let fooOnNestedDispatchorCalled
+      let fooOnParentDispatchorCalled = false
 
       e.on('foo', function () {
         fooOnParentDispatchorCalled = true
       })
 
-      n.on('foo', function () {
-        fooOnNestedDispatchorCalled = true
-      })
-
       n.emit('foo')
 
-      expect(fooOnParentDispatchorCalled, true)
-      expect(fooOnNestedDispatchorCalled, false)
+      assert.equal(fooOnParentDispatchorCalled, true)
     })
     it('dispatch events to it\'s parent dispatcher and itself', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
 
-      let fooOnParentDispatchorCalled
-      let fooOnNestedDispatchorCalled
+      let fooOnParentDispatchorCalled = false
+      let fooOnNestedDispatchorCalled = false
 
       e.on('foo', function () {
         fooOnParentDispatchorCalled = true
@@ -640,15 +637,15 @@ export default function tests ({
 
       n.emit('foo')
 
-      expect(fooOnParentDispatchorCalled, true)
-      expect(fooOnNestedDispatchorCalled, true)
+      assert.equal(fooOnParentDispatchorCalled, true)
+      assert.equal(fooOnNestedDispatchorCalled, true)
     })
     it('dispatch events only to itself', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
 
-      let fooOnParentDispatchorCalled
-      let fooOnNestedDispatchorCalled
+      let fooOnParentDispatchorCalled = false
+      let fooOnNestedDispatchorCalled = false
 
       e.on('foo', function () {
         fooOnParentDispatchorCalled = true
@@ -660,15 +657,15 @@ export default function tests ({
 
       n.emitLocal('foo')
 
-      expect(fooOnParentDispatchorCalled, false)
-      expect(fooOnNestedDispatchorCalled, true)
+      assert.equal(fooOnParentDispatchorCalled, false)
+      assert.equal(fooOnNestedDispatchorCalled, true)
     })
     it('dispatch events only to it\'s parent dispatcher', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
 
-      let fooOnParentDispatchorCalled
-      let fooOnNestedDispatchorCalled
+      let fooOnParentDispatchorCalled = false
+      let fooOnNestedDispatchorCalled = false
 
       e.on('foo', function () {
         fooOnParentDispatchorCalled = true
@@ -680,8 +677,10 @@ export default function tests ({
 
       n.emitParent('foo')
 
-      expect(fooOnParentDispatchorCalled, true)
-      expect(fooOnNestedDispatchorCalled, false)
+      assert.equal(fooOnParentDispatchorCalled, true)
+      assert.equal(fooOnNestedDispatchorCalled, false)
     })
+    
+    
   })
 }
