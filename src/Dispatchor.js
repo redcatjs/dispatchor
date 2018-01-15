@@ -14,6 +14,10 @@ class Dispatchor {
   emit (evt) {
     const args = Object.values(arguments).slice(1)
     
+    if (this._events.has('*')){
+      this._runListeners('*', args)
+    }
+    
     if (!this._events.has(evt)){
       return false
     }
