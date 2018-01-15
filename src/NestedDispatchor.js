@@ -19,20 +19,20 @@ export default class NestedDispatchor extends Dispatchor {
     }
     this.rootDispatcher.removeListener(eventName, listener, context)
   }
-  
-  getParent(){
+
+  getParent () {
     return this.rootDispatcher
   }
-  
+
   emit (eventName, ...args) {
     this.emitLocal(eventName, ...args)
     this.emitParent(eventName, ...args)
   }
-  
+
   emitParent (eventName, ...args) {
     return this.rootDispatcher.emit(eventName, ...args)
   }
-  
+
   emitLocal (...args) {
     return super.emit(...args)
   }
@@ -53,9 +53,9 @@ export default class NestedDispatchor extends Dispatchor {
   _unregister (eventName, listener) {
     const eventsRegistry = this._eventsRegistry
     Object.keys(eventsRegistry).forEach(eventName => {
-      eventsRegistry[eventName].forEach( fn => {
+      eventsRegistry[eventName].forEach(fn => {
         this.rootDispatcher.removeListener(eventName, fn, this)
-      } )
+      })
     })
   }
   _registerEvent (eventName, listener) {

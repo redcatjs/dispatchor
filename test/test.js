@@ -686,25 +686,23 @@ export default function tests ({
 
       let fooEventCalledFromParent = 0
       let fooEventCalledFromNested = 0
-      
+
       e.on('foo', function () {
         fooEventCalledFromParent++
       })
-      
+
       n.on('foo', function () {
         fooEventCalledFromNested++
       })
-      
+
       e.emit('foo')
-      
+
       n.off()
-      
+
       e.emit('foo')
 
       assert.equal(fooEventCalledFromParent, 2)
       assert.equal(fooEventCalledFromNested, 1)
     })
-    
-    
   })
 }
