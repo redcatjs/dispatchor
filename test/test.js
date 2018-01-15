@@ -214,9 +214,30 @@ export default function tests (Dispatchor) {
 
         expect(pattern.join(';')).equals('foo1;foo2')
 
-    });
+    })
     
-    (function each (keys) {
+    it('emits once to wildcard event listeners', function () {
+        const e = new Dispatchor()
+        const pattern = []
+        
+        e.once('*', function (name) {
+          pattern.push('foo1')
+        })
+
+        e.once('*', function (name) {
+          pattern.push('foo2')
+        })
+
+        e.emit('foo')
+        e.emit('foo')
+        e.emit('foo')
+        e.emit('foo')
+
+        expect(pattern.join(';')).equals('foo1;foo2')
+
+    })
+    
+    ;(function each (keys) {
       const key = keys.shift()
 
       if (!key) return
