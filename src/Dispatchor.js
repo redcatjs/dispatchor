@@ -74,11 +74,11 @@ class Dispatchor {
   }
 
   // alias methods
-  off (eventName, listener) {
-    return this.removeListener(eventName, listener)
+  off (...args) {
+    return this.removeListener(...args)
   }
-  addListener (eventName, listener) {
-    return this.on(eventName, listener)
+  addListener (...args) {
+    return this.on(...args)
   }
 
   // internal methods
