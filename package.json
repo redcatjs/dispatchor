@@ -1,0 +1,74 @@
+{
+  "name": "dispatchor",
+  "version": "1.0.0",
+  "description": "Dispatchor",
+  "main": "node.js",
+  "module": "browser.js",
+  "browser": "browser.js",
+  "scripts": {
+    "build": "npm run build:node & npm run build:browser",
+    "build:node": "babel src --out-dir dist --source-maps inline",
+    "build:browser": "webpack",
+    "build:test": "webpack --config webpack.config.test.js",
+    "dev": "npm run build -- --watch",
+    "mocha": "mocha --require babel-register",
+    "test": "npm run mocha -- test/node.js",
+    "test:dev": "npm run test -- --watch",
+    "test:doc": "npm run mocha -- test -R markdown > test/documentation.md --recursive",
+    "prepublish": "npm run build && npm run build:test",
+    "codestyle": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redcatjs/dispatchor"
+  },
+  "keywords": [
+    "dispatch",
+    "EventEmitter",
+    "Events",
+    "addListener",
+    "emit",
+    "emitter",
+    "event",
+    "once"
+  ],
+  "author": "Jo Takion",
+  "license": "MIT",
+  "homepage": "https://github.com/redcatjs/dispatchor#readme",
+  "bugs": {
+    "url": "https://github.com/redcatjs/dispatchor/issues"
+  },
+  "devDependencies": {
+    "babel-cli": "^7.0.0-beta.3",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^7.0.0-beta.3",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-runtime": "^7.0.0-beta.3",
+    "babel-preset-env": "^2.0.0-beta.2",
+    "babel-preset-stage-3": "^7.0.0-beta.3",
+    "babel-register": "^7.0.0-beta.3",
+    "babel-runtime": "^7.0.0-beta.3",
+    "chai": "^4.1.2",
+    "interface-prototype": "^1.1.1",
+    "mocha": "^4.0.1",
+    "standard": "^10.0.3",
+    "webpack": "^3.9.1"
+  },
+  "files": [
+    "dist",
+    "browser.js",
+    "browser.js.map"
+  ],
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "/dist/",
+      "/icon/",
+      "/browser.js",
+      "/test/browser.dist.js"
+    ]
+  }
+}
