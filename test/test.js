@@ -192,8 +192,26 @@ export default function tests (Dispatchor) {
       e.emit('foo')
 
       expect(pattern.join(';')).equals('foo1;foo2')
-    });
+    })
 
+    it('emits to wildcard event listeners', function () {
+        const e = new Dispatchor()
+        const pattern = []
+
+        e.on('*', function () {
+          pattern.push('foo1')
+        })
+
+        e.on('*', function () {
+          pattern.push('foo2')
+        })
+
+        e.emit('foo')
+
+        expect(pattern.join(';')).equals('foo1;foo2')
+
+    });
+    
     (function each (keys) {
       const key = keys.shift()
 
@@ -219,6 +237,7 @@ export default function tests (Dispatchor) {
       'watch'
     ])
   })
+  
 
   describe('listeners', function () {
     it('returns an empty array if no listeners are specified', function () {
