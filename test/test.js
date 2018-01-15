@@ -631,7 +631,7 @@ export default function tests ({
         fooOnParentDispatchorCalled = true
       })
 
-      n.onLocal('foo', function () {
+      n.localDispatcher.on('foo', function () {
         fooOnNestedDispatchorCalled = true
       })
 
@@ -651,11 +651,11 @@ export default function tests ({
         fooOnParentDispatchorCalled = true
       })
 
-      n.onLocal('foo', function () {
+      n.localDispatcher.on('foo', function () {
         fooOnNestedDispatchorCalled = true
       })
 
-      n.emitLocal('foo')
+      n.localDispatcher.emit('foo')
 
       assert.equal(fooOnParentDispatchorCalled, false)
       assert.equal(fooOnNestedDispatchorCalled, true)
@@ -671,11 +671,11 @@ export default function tests ({
         fooOnParentDispatchorCalled = true
       })
 
-      n.onLocal('foo', function () {
+      n.localDispatcher.on('foo', function () {
         fooOnNestedDispatchorCalled = true
       })
 
-      n.emitParent('foo')
+      n.parentDispatcher.emit('foo')
 
       assert.equal(fooOnParentDispatchorCalled, true)
       assert.equal(fooOnNestedDispatchorCalled, false)
