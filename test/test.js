@@ -601,49 +601,47 @@ export default function tests ({
       })
     }
   })
-  
-  describe('Nested dispatcher', function(){
-    it('dispatch events to it\'s parent dispatcher',function(){
+
+  describe('Nested dispatcher', function () {
+    it('dispatch events to it\'s parent dispatcher', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
-      
+
       let fooOnParentDispatchorCalled
       let fooOnNestedDispatchorCalled
-      
-      e.on('foo', function(){
+
+      e.on('foo', function () {
         fooOnParentDispatchorCalled = true
       })
-      
-      n.on('foo', function(){
+
+      n.on('foo', function () {
         fooOnNestedDispatchorCalled = true
       })
-      
+
       n.emit('foo')
-      
+
       expect(fooOnParentDispatchorCalled, true)
       expect(fooOnNestedDispatchorCalled, false)
-      
     })
-    it('dispatch events to it\'s parent dispatcher and itself',function(){
+    it('dispatch events to it\'s parent dispatcher and itself', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
-      
+
       let fooOnParentDispatchorCalled
       let fooOnNestedDispatchorCalled
-      
-      e.on('foo', function(){
+
+      e.on('foo', function () {
         fooOnParentDispatchorCalled = true
       })
-      
-      n.onLocal('foo', function(){
+
+      n.onLocal('foo', function () {
         fooOnNestedDispatchorCalled = true
       })
-      
+
       n.emit('foo')
-      
+
       expect(fooOnParentDispatchorCalled, true)
       expect(fooOnNestedDispatchorCalled, true)
-      
     })
   })
 }

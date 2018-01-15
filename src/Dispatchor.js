@@ -42,7 +42,6 @@ class Dispatchor {
 
     const events = []
 
-    
     listeners.forEach(listener => {
       if (
         listener.fn !== fn ||
