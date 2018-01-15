@@ -9,14 +9,14 @@ export default class NestedDispatchor {
     }
     this.parentDispatcher.on('*', this.wildcardCallback)
   }
-  
-  get localDispatcher(){
-    if(this._localDispatcher === undefined){
+
+  get localDispatcher () {
+    if (this._localDispatcher === undefined) {
       this._localDispatcher = new Dispatchor()
     }
     return this._localDispatcher
   }
-  
+
   on (eventName, listener, context = this) {
     this.localDispatcher.on(eventName, listener, context)
     this.ownDispatcher.on(eventName, listener, context)
@@ -24,16 +24,15 @@ export default class NestedDispatchor {
   removeListener (eventName, listener, context = this) {
     if (eventName === undefined) {
       this.parentDispatcher.removeListener('*', this.wildcardCallback)
-    }
-    else{
+    } else {
       this.localDispatcher.removeListener(eventName, listener, context)
       this.ownDispatcher.removeListener(eventName, listener, context)
     }
   }
-  off(...args){
+  off (...args) {
     return this.removeListener(...args)
   }
-  addListener(...args){
+  addListener (...args) {
     return this.on(...args)
   }
 
