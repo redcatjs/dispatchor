@@ -9,18 +9,28 @@ export default class NestedDispatchor extends Dispatchor {
       this.rootDispatcher.emit(eventName, args)
     })
   }
-  on(eventName, listener){
-    
+  on(eventName, listener, context = this){
     this._registerEvent(eventName, listener)
-    this.rootDispatcher.on(eventName, listener, this)
+    this.rootDispatcher.on(eventName, listener, context)
   }
-  removeListener(eventName, listener){
-    
+  removeListener(eventName, listener, context = this){
     if(eventName === undefined){
       this._unregister()
     }
-    
-    this.rootDispatcher.removeListener(eventName, listener, this)
+    this.rootDispatcher.removeListener(eventName, listener, context)
+  }
+  
+  onLocal(...args){
+    super.on(...args)
+  }
+  removeListenerLocal(...args){
+    super.removeListener(...args)
+  }
+  offLocal (...args) {
+    return this.removeListenerLocal(...args)
+  }
+  addListenerLocal (...args) {
+    return this.onLocal(...args)
   }
   
   _unregister(eventName, listener){
