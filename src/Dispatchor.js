@@ -42,30 +42,21 @@ class Dispatchor {
 
     const events = []
 
-    if (listeners.fn) {
+    
+    listeners.forEach(listener => {
       if (
-        listeners.fn === fn &&
-        (!once || listeners.once) &&
-        (!context || listeners.context === context)
+        listener.fn !== fn ||
+        (once && !listener.once) ||
+        (context && listener.context !== context)
       ) {
-        this._clearEvent(evt)
+        events.push(listener)
       }
-    } else {
-      listeners.forEach(listener => {
-        if (
-          listener.fn !== fn ||
-          (once && !listener.once) ||
-          (context && listener.context !== context)
-        ) {
-          events.push(listener)
-        }
-      })
+    })
 
-      if (events.length) {
-        this._events.set(evt, events)
-      } else {
-        this._events.delete(evt)
-      }
+    if (events.length) {
+      this._events.set(evt, events)
+    } else {
+      this._events.delete(evt)
     }
 
     return this
