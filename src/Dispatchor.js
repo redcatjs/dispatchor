@@ -11,17 +11,15 @@ class Dispatchor {
     return (this._events.get(event) || []).map(handler => handler.fn)
   }
 
-  emit (evt) {
-    const args = Object.values(arguments)
-
+  emit (evt, ...args) {
     if (this._events.has('*')) {
-      this._runListeners('*', args)
+      this._runListeners('*', [evt, ...args])
     }
 
     if (!this._events.has(evt)) {
       return false
     }
-    this._runListeners(evt, args.slice(1))
+    this._runListeners(evt, args)
     return true
   }
 
