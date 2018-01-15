@@ -643,5 +643,25 @@ export default function tests ({
       expect(fooOnParentDispatchorCalled, true)
       expect(fooOnNestedDispatchorCalled, true)
     })
+    it('dispatch events only to itself', function () {
+      const e = new Dispatchor()
+      const n = new NestedDispatchor(e)
+
+      let fooOnParentDispatchorCalled
+      let fooOnNestedDispatchorCalled
+
+      e.on('foo', function () {
+        fooOnParentDispatchorCalled = true
+      })
+
+      n.onLocal('foo', function () {
+        fooOnNestedDispatchorCalled = true
+      })
+
+      n.emitLocal('foo')
+
+      expect(fooOnParentDispatchorCalled, false)
+      expect(fooOnNestedDispatchorCalled, true)
+    })
   })
 }

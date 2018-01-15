@@ -20,11 +20,15 @@ export default class NestedDispatchor extends Dispatchor {
     this.rootDispatcher.removeListener(eventName, listener, context)
   }
 
+  emitLocal (...args) {
+    return super.emit(...args)
+  }
+
   onLocal (...args) {
-    super.on(...args)
+    return super.on(...args)
   }
   removeListenerLocal (...args) {
-    super.removeListener(...args)
+    return super.removeListener(...args)
   }
   offLocal (...args) {
     return this.removeListenerLocal(...args)
