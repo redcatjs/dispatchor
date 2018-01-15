@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
-import Dispatchor from '../browser'
+import * as dispatchorAPI from '../browser'
 import test from './test'
 describe('Dispatchor', function () {
-  test.bind(this)(Dispatchor)
+  test.bind(this)(dispatchorAPI)
 })

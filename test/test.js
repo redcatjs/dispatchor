@@ -2,7 +2,10 @@
 
 import { expect } from 'chai'
 
-export default function tests (Dispatchor) {
+export default function tests ({
+  default: Dispatchor,
+  NestedDispatchor
+}) {
   it('works with ES6 symbols', function (next) {
     const e = new Dispatchor()
     const event = Symbol('cows')
@@ -597,5 +600,21 @@ export default function tests (Dispatchor) {
         expect(e.eventNames()).eql([s])
       })
     }
+  })
+  
+  describe('Nested dispatcher', function(){
+    it('dispatch events to it\'s parent dispatcher',function(){
+      const e = new Dispatchor()
+      let fooOnParentDispatchorCalled
+      e.on('foo', function(){
+        fooOnParentDispatchorCalled = true
+      })
+      
+      const n = new NestedDispatchor(e)
+      n.emit('foo')
+      
+      expect(fooOnParentDispatchorCalled, true)
+      
+    })
   })
 }
