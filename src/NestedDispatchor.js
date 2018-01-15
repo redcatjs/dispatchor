@@ -5,7 +5,7 @@ export default class NestedDispatchor extends Dispatchor {
     super()
     this._eventsRegistry = []
     this.rootDispatcher = rootDispatcher
-    this.on('*', (eventName, ...args) => {
+    super.on('*', (eventName, ...args) => {
       this.rootDispatcher.emit(eventName, args)
     })
   }
@@ -19,7 +19,15 @@ export default class NestedDispatchor extends Dispatchor {
     }
     this.rootDispatcher.removeListener(eventName, listener, context)
   }
-
+  
+  getParent(){
+    return this.rootDispatcher
+  }
+  
+  emitParent (eventName, ...args) {
+    return this.rootDispatcher.emit(eventName, ...args)
+  }
+  
   emitLocal (...args) {
     return super.emit(...args)
   }
