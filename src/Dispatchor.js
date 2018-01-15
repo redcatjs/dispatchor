@@ -1,10 +1,4 @@
-class Event {
-  constructor (fn, context, once) {
-    this.fn = fn
-    this.context = context
-    this.once = once || false
-  }
-}
+import Event from './Event'
 
 class Dispatchor {
   constructor () {
@@ -39,10 +33,6 @@ class Dispatchor {
 
     const args = []
     Object.values(arguments).slice(1).forEach(arg => args.push(arg))
-
-    if (listeners.fn) {
-      listeners = [ listeners ]
-    }
 
     listeners.forEach(listener => {
       if (listener.once) {
@@ -82,26 +72,21 @@ class Dispatchor {
         this._clearEvent(evt)
       }
     } else {
-      for (var i = 0, length = listeners.length; i < length; i++) {
+      listeners.forEach( listener => {
         if (
-          listeners[i].fn !== fn ||
-          (once && !listeners[i].once) ||
-          (context && listeners[i].context !== context)
+          listener.fn !== fn ||
+          (once && !listener.once) ||
+          (context && listener.context !== context)
         ) {
-          events.push(listeners[i])
+          events.push(listener)
         }
+      })
+      
+      if(events.length){
+        this._events.set(evt, events)
       }
-
-      //
-      // Reset the array, or remove it completely if we have no more listeners.
-      //
-      if (events.length) {
-        const event = events.length === 1 ? events[0] : events
-        if (event !== undefined) {
-          this._events.set(evt, event)
-        }
-      } else {
-        this._clearEvent(evt)
+      else{
+        this._events.delete(evt)
       }
     }
 
@@ -113,8 +98,9 @@ class Dispatchor {
       if (this._events.has(evt)) {
         this._clearEvent(evt)
       }
-    } else {
-      this._events = new Map()
+    }
+    else {
+      this._events.clear()
     }
     return this
   }
@@ -139,12 +125,10 @@ class Dispatchor {
     const listener = new Event(fn, context || this, once)
 
     if (!this._events.has(evt)) {
-      this._events.set(evt, listener)
-    } else if (!this._events.get(evt).fn) {
-      this._events.get(evt).push(listener)
-    } else {
-      this._events.set(evt, [this._events.get(evt), listener])
+      this._events.set(evt, [])
     }
+    const listeners = this._events.get(evt)
+    listeners.push(listener)
 
     return this
   }
