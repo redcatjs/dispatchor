@@ -6,9 +6,9 @@ export default class NestedDispatchor {
     this.ownDispatcher = new Dispatchor()
     this.wildcardCallback = (eventName, ...args) => {
       if(this.hasLocalDispatcher){
-        this.localDispatcher.emit(eventName, args)
+        this.localDispatcher.emit(eventName, ...args)
       }
-      this.ownDispatcher.emit(eventName, args)
+      this.ownDispatcher.emit(eventName, ...args)
     }
     if(autoEnable){
       this.enable()

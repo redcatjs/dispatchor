@@ -684,6 +684,25 @@ export default function tests ({
       assert.equal(fooEventCalledFromParent, 2)
       assert.equal(fooEventCalledFromNested, 1)
     })
-    
+    it('dispatch event\'s arguments', function () {
+      const e = new Dispatchor()
+      const n = new NestedDispatchor(e)
+
+      let argsE
+      let argsN
+      
+      e.on('foo', function (...args) {
+        argsE = args
+      })
+
+      n.localDispatcher.on('foo', function (...args) {
+        argsN = args
+      })
+
+      n.parentDispatcher.emit('foo', 'a', 'b')
+
+      assert.equal(argsE.join(';'), 'a;b')
+      assert.equal(argsN.join(';'), 'a;b')
+    })
   })
 }
