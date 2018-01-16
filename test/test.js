@@ -697,12 +697,13 @@ export default function tests ({
 
       e.emit('foo')
 
-      n.off()
+      n.disable()
 
       e.emit('foo')
 
       assert.equal(fooEventCalledFromParent, 2)
       assert.equal(fooEventCalledFromNested, 1)
     })
+    
   })
 }
