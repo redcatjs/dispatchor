@@ -660,26 +660,6 @@ export default function tests ({
       assert.equal(fooOnParentDispatchorCalled, false)
       assert.equal(fooOnNestedDispatchorCalled, true)
     })
-    it('dispatch events only to it\'s parent dispatcher', function () {
-      const e = new Dispatchor()
-      const n = new NestedDispatchor(e)
-
-      let fooOnParentDispatchorCalled = false
-      let fooOnNestedDispatchorCalled = false
-
-      e.on('foo', function () {
-        fooOnParentDispatchorCalled = true
-      })
-
-      n.localDispatcher.on('foo', function () {
-        fooOnNestedDispatchorCalled = true
-      })
-
-      n.parentDispatcher.emit('foo')
-
-      assert.equal(fooOnParentDispatchorCalled, true)
-      assert.equal(fooOnNestedDispatchorCalled, false)
-    })
     it('unregistred from it\'s parent dispatcher', function () {
       const e = new Dispatchor()
       const n = new NestedDispatchor(e)
