@@ -5,34 +5,34 @@ export default class NestedDispatchor {
     this.parentDispatcher = parentDispatcher
     this.ownDispatcher = new Dispatchor()
     this.wildcardCallback = (eventName, ...args) => {
-      if(this.hasLocalDispatcher){
+      if (this.hasLocalDispatcher) {
         this.localDispatcher.emit(eventName, ...args)
       }
       this.ownDispatcher.emit(eventName, ...args)
     }
-    if(autoEnable){
+    if (autoEnable) {
       this.enable()
     }
   }
-  get localDispatcher(){
-    if(!this._localDispatcher){
+  get localDispatcher () {
+    if (!this._localDispatcher) {
       this.hasLocalDispatcher = true
       this._localDispatcher = new Dispatchor()
     }
     return this._localDispatcher
   }
-  
-  enable(){
-    if(this.enabled) return
+
+  enable () {
+    if (this.enabled) return
     this.enabled = true
     this.parentDispatcher.on('*', this.wildcardCallback)
   }
-  disable(){
-    if(!this.enabled) return
+  disable () {
+    if (!this.enabled) return
     this.enabled = false
     this.parentDispatcher.removeListener('*', this.wildcardCallback)
   }
-  
+
   on (eventName, listener, context = this) {
     this.ownDispatcher.on(eventName, listener, context)
   }

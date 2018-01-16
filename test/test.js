@@ -690,7 +690,7 @@ export default function tests ({
 
       let argsE
       let argsN
-      
+
       e.on('foo', function (...args) {
         argsE = args
       })
